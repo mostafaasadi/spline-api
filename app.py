@@ -2,8 +2,8 @@ import os
 import ast
 import uuid
 from engine import draw
-from flask import Flask, request, abort
-from werkzeug.utils import secure_filename
+from flask import Flask, request, abort, send_file
+
 
 app = Flask(__name__)
 
@@ -22,8 +22,11 @@ def get_image():
         if 'tck' not in data:
             abort(403)
         tck = ast.literal_eval(data['tck'])
-        draw(img='img/uploads/{}'.format(filename), tck=tck)
-        return('200')
+        try:
+            plot = draw(img='img/uploads/{}'.format(filename), tck=tck)
+            return(send_file(plot, mimetype='image/gif'))
+        except Exception:
+            abort(500)
 
 
 if __name__ == "__main__":

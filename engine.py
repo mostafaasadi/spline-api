@@ -16,6 +16,6 @@ def draw(tck, img):
     try:
         name = uuid.uuid4().hex
         plt.savefig('{}/{}'.format('img/generates/', name), bbox_inches='tight', pad_inches=0)
-        return(name)
+        return('{}/{}.png'.format('img/generates', name))
     except Exception:
         return(False)
